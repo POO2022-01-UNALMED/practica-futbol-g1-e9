@@ -308,3 +308,218 @@ public class Menu {
 		}
 		
 	}
+private static void designarArbitrosFechas() {
+		
+		if (liga.getCalendario().isEmpty()) {
+			System.out.println("El calendario debe ser creado");
+			return;
+		} else {
+			System.out.println("Ingrese la fecha de inicio de la liga: (dd-mm-aaaa)");
+			String linea = scanner.nextLine();
+			
+			Date fechaInicio;
+			
+	        try {
+	        	fechaInicio = new SimpleDateFormat("dd-MM-yyyy").parse(linea);
+	        } catch (ParseException ex) {
+	            System.out.println("Debes ingresar una fecha valida en formato dd-mm-aaaa");
+	            return;
+	        }
+	        
+	        liga.setFechaInicio(fechaInicio);
+	        liga.asignarArbitrosFechas();
+	        mostrarCalendario();
+		}
+		
+	}
+	
+	private static void registrarResultadosJornada() {
+		
+		int numeroJornadaARegistrar = liga.proximaJornada();
+		List<Jornada> calendario = liga.getCalendario();
+		
+		// Se valida que si haya calendario completo
+		if ( !liga.isCalendarioListo() ) {
+			
+			System.out.println("Primero se debe generar el calendario y asignarle arbitros y fechas");
+			return;
+		
+		// Se valida que todavia no se hayan agregado los resultados de todas las jornadas
+		} else if ( numeroJornadaARegistrar == calendario.size() ) {
+			
+			System.out.println("Ya se han registrado los resultados de todas las jornadas");
+			return;
+		
+		// Luego de todas las validaciones, se procede a ejecutar el codigo
+		} else {
+			
+			Jornada jornadaNoJugada = calendario.get(numeroJornadaARegistrar);
+			Jornada jornadaJugada = new Jornada();
+			
+			// Para cada Fixture de la jornadaNoJugada se pediran los goles de los equipos
+			jornadaNoJugada.getPartidos().forEach((partido) -> {
+				
+				EquipoFutbol local = partido.getEquipoLocal();
+				EquipoFutbol visitante = partido.getEquipoVisitante();
+				
+				// Se muestra cual es el partido del que se pediran los goles
+				System.out.println("\n" + local.getNombre() + " vs " + visitante.getNombre() + "\n");
+				
+				// Se piden los goles del equipo local
+				System.out.println("Ingrese los goles del " + local.getNombre() + ": ");
+				String linea = scanner.nextLine();
+				int golesLocal = -1;
+				
+				try {
+					golesLocal = Integer.parseInt(linea);
+				} catch (Exception e) {
+						
+					}
+				
+				if (golesLocal <= -1) {
+					System.out.println("Tienes que ingresar un numero de goles");
+					return;
+				}
+
+				// Se piden los goles del equipo visitante
+				System.out.println("Ingrese los goles del " + visitante.getNombre() + ": ");
+				linea = scanner.nextLine();
+				int golesVisitante = -1;
+				
+				try {
+					golesVisitante= Integer.parseInt(linea);                
+				} catch (Exception e) { 
+						
+				}
+				
+				if (golesVisitante <= -1) {
+					System.out.println("Tienes que ingresar un numero de goles");
+					return;
+				}
+				
+				// Se crea el partido jugado, solo es tomar el partido sin jugar y agregarle la info de goles
+				PartidoJugado partidoJugado = new PartidoJugado(partido, golesLocal, golesVisitante);
+				
+				// luego se agrega el partido jugado en la nueva jornada
+				jornadaJugada.agregarPartido(partidoJugado);
+				
+				// Se registran los partidos en los equipos para actualizar sus estadisticas 
+				local.registrarPartido(golesLocal, golesVisitante);
+				visitante.registrarPartido(golesVisitante, golesLocal);
+				
+			});
+			
+			jornadaJugada.setJugada(true);
+			jornadaJugada.setFecha(jornadaNoJugada.getFecha());
+			jornadaJugada.setIndice(jornadaNoJugada.getIndice());
+			// Se registra la nueva jornada en la liga
+			liga.registrarJornada(jornadaJugada);
+			
+		}
+		
+	}
+	
+	private static void mostrarTablaLiga(){
+		
+		List<EquipoFutbol> equipos = liga.getEquipos();
+   	 
+		Collections.sort(equipos, new Comparador());
+		for(EquipoFutbol equipo : equipos) {
+			System.out.println("Equipo: " + equipo.getNombre()+" Puntos: "+ equipo.getPuntos()+" Diferencia de Gol: "+ (equipo.getGolesAnotados()-equipo.getGolesRecibidos()));
+		}
+	}
+	
+	private static void mostrarEstadisticas() {
+        
+        System.out.println("Ingrese el nombre del equipo: ");
+        String linea = scanner.nextLine();
+        
+        EquipoFutbol equipo = liga.identificarEquipo(linea);
+        
+        if ( liga.equipoPertenece(equipo) ) {
+        	System.out.println("Estadisticas del " + equipo.getNombre() + "\n");
+        	System.out.println("Partidos Ganados: " + equipo.getVictorias());
+            System.out.println("Partidos Perdidos: " + equipo.getDerrotas());
+            System.out.println("Partidos Empatados: " + equipo.getEmpates());
+            System.out.println("Goles Anotados: " + equipo.getGolesAnotados());
+            System.out.println("Goles Recibidos: " + equipo.getGolesRecibidos());
+            System.out.println("Puntos: " + equipo.getPuntos());
+            System.out.println("Partidos Jugados: " + equipo.getPartidosJugados());
+            return;
+        }
+        
+        System.out.println("Ese equipo no esta en la liga");
+    }
+	
+	private static void ficharJugador () {
+		System.out.println("Ingrese el nombre del equipo");
+		String linea = scanner.nextLine();
+		
+		EquipoFutbol equipo = liga.identificarEquipo(linea);
+    	
+    	if (liga.equipoPertenece(equipo)) {
+    		
+    		System.out.println("Bienvenido " + equipo.getEntrenador().getNombre());
+    		System.out.println("\nEstos son tus jugadores:");
+    		
+    		equipo.getPlantilla().forEach((jugador) -> {
+    			System.out.println(jugador.mostrar());
+    		});
+    		
+    		System.out.println("Ingrese la posicion en la que desea fichar:");
+        	linea = scanner.nextLine();
+        	
+        	ArrayList <Jugador> jugadoresDisponibles = liga.jugadoresFichables(linea, equipo);
+        	
+        	if (jugadoresDisponibles.isEmpty()){
+        		System.out.println("No hay jugadores que puedas fichar en esa posicion :c");
+        		return;
+        	} else {
+        	
+        	System.out.println("\nEstos son los jugadores que puedes fichar:");
+    		
+    		jugadoresDisponibles.forEach((jugador) -> {
+    			System.out.println(jugador.mostrar());
+    		});
+    		
+    		System.out.println("¿Cual vas a fichar? Ingresa el nombre");
+        	String nombre = scanner.nextLine();
+        	
+        	jugadoresDisponibles.forEach((jugador) -> {
+    			if (jugador.getNombre() == nombre) {
+    				equipo.getEntrenador().ficharJugador(jugador);
+    				System.out.println(jugador.getNombre() + " fue fichado.");
+    			}
+    		});
+        	
+        	equipo.getPlantilla().forEach((jugador) -> {
+    			System.out.println(jugador.mostrar());
+    		});
+        	
+    	}
+    	
+    	} else {
+    		System.out.println("El equipo no pertenece a la liga");
+    	}
+    	
+	}
+	
+	private static void predecirResultados() {
+		
+	}
+	
+	public static void guardar() {
+		Serializador.serializarTodo(liga);
+	}
+
+	public static void cargar() {
+		Deserializador.deserializarTodo(liga);
+	}
+	
+	private static void salirDelSistema() {
+		guardar();
+		System.exit(0);
+	}
+	
+
+}
