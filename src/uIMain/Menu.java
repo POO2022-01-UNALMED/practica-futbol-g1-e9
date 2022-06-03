@@ -154,6 +154,15 @@ public class Menu {
 	
 	}
 	
+	/**
+	 * @summary Permite agregar un equipo a la liga ingresando nombre, ubicacion,
+	 * presupuesto y nombre de entrenador. Crea un equipo con la plantilla vacia.
+	 * 
+	 * No se puede crear un equipo con un nombre de un equipo ya agregado.
+	 * No se puede crear un equipo en una liga con 4 equipos. 4 es la cantidad permitida y necesaria de equipos.
+	 * 
+	 **/
+	
 	private static void anadirEquipo() {
     	
     	if ( liga.ligaCompleta() ) {
@@ -198,6 +207,11 @@ public class Menu {
     	 
 	}
 	
+	/**
+	 * @summary Permite eliminar un equipo de la liga ingresando su nombre.
+	 * Solo se puede eliminar un equipo que pertenece a la liga.
+	 * 
+	 **/
 	
 	private static void eliminarEquipo() {
 		System.out.println("Ingrese el nombre del equipo");
@@ -214,6 +228,11 @@ public class Menu {
 		
 	}
 	
+	/**
+	 * @summary Enlista los nombres de los equipos de la liga 
+	 * Si hay menos de 4 dice cuantos faltan para completar ese numero de equipos.
+	 * 
+	 **/
 	
 	private static void mostrarEquipos() {
 		
@@ -231,6 +250,13 @@ public class Menu {
 		
 	}
 
+	/**
+	 * @summary Genera un calendario de emparejamientos (fixtures) 
+	 * intercalando los equipos entre local y visitante.
+	 * Se juegan dos "vueltas", si en la primera quedo A vs B
+	 * en la segunda se establecera B vs A, intercambiando local y visitante
+	 * 
+	 **/
 	
 	private static void generarCalendario() {
 		
@@ -253,6 +279,10 @@ public class Menu {
 		
 	}
 
+	/**
+	 * @summary Muestra el calendario generado.
+	 * 
+	 **/
 	
 	private static void mostrarCalendario() {
 		
@@ -289,6 +319,12 @@ public class Menu {
 		
 	}
 	
+	/**
+	 * @summary Con un calendario creado, se designan los arbitros aleatoriamente
+	 * y las fechas de las jornadas ingresando la fecha de inicio de la liga.
+	 * Las jornadas se juegan cada 7 dias.
+	 * 
+	 **/
 	
 	private static void designarArbitrosFechas() {
 		
@@ -314,6 +350,18 @@ public class Menu {
 		}
 		
 	}
+	
+	/**
+	 * @summary Ya con un calendario creado y que se le hayan asignado arbitros y fechas
+	 * se puede proceder a registrar los resultados de los partidos de la siguiente jornada
+	 * no jugada aun.
+	 * 
+	 * Muestra cada partido de la jornada correspondiente y pregunta por los goles de cada
+	 * equipo que deben ser ingresados por el usuario.
+	 * 
+	 * Se actualizan todas las estadisticas de los equipos. La jornada se declara como jugada.
+	 * 
+	 **/
 	
 	private static void registrarResultadosJornada() {
 		
@@ -401,6 +449,12 @@ public class Menu {
 		
 	}
 	
+	/**
+	 * @summary Muestra una tabla de la liga con los nombres de los equipos, puntos y diferencia de gol
+	 * Los equipos se organizan de acuerdo a sus puntos.
+	 * 
+	 **/
+	
 	private static void mostrarTablaLiga(){
 		
 		List<EquipoFutbol> equipos = liga.getEquipos();
@@ -410,6 +464,13 @@ public class Menu {
 			System.out.println("Equipo: " + equipo.getNombre()+" Puntos: "+ equipo.getPuntos()+" Diferencia de Gol: "+ (equipo.getGolesAnotados()-equipo.getGolesRecibidos()));
 		}
 	}
+	
+	/**
+	 * @summary Ingresando el nombre del equipo muestra todos sus datos en lo que 
+	 * vaya del torneo (Partidos ganados, empatados y perdidos, goles anotados 
+	 * y recibidos, puntos y partidos jugados)
+	 * 
+	 **/
 	
 	private static void mostrarEstadisticas() {
         
@@ -432,6 +493,15 @@ public class Menu {
         
         System.out.println("Ese equipo no esta en la liga");
     }
+	
+	/**
+	 * @summary Ingresando el nombre del equipo permite que el entrenador fiche
+	 * a un jugador disponible en la liga pagando su valor de mercado (como prima de fichaje)
+	 * 
+	 * Tiene en cuenta el presupuesto del equipo y la posicion de campo del jugador 
+	 * que el entrenador quiera fichar.
+	 * 
+	 **/
 	
 	private static void ficharJugador () {
 		System.out.println("Ingrese el nombre del equipo");
@@ -492,13 +562,29 @@ public class Menu {
     	
 	}
 	
+	/**
+	 * @summary Serializa los equipos de la liga, el calendario, los jugadores libres 
+	 * (disponibles para ser fichados) y los arbitros de la federacionArbitros.
+	 * 
+	 **/
+	
 	public static void guardar() {
 		Serializador.serializarTodo(liga);
 	}
+	
+	/**
+	 * @summary Deserializa lo serializado para mantener la persistencia del programa.
+	 * 
+	 **/
 
 	public static void cargar() {
 		Deserializador.deserializarTodo(liga);
 	}
+	
+	/**
+	 * @summary Ejecuta el serializado y cierra la consola de comandos
+	 * 
+	 **/
 	
 	private static void salirDelSistema() {
 		guardar();
