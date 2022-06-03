@@ -1,4 +1,4 @@
-package programafutbol;
+package gestorAplicacion;
 
 public class Arbitro {
 	private String nombre;

@@ -1,5 +1,5 @@
-package programafutbol;
-public class Equipo extends ClubesDeportivos{
+package gestorAplicacion;
+public class EquipoFutbol extends ClubesDeportivos{
 	
 	private String nombre;
 	private Jugador [] jugadores;

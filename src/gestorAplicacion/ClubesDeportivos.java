@@ -1,4 +1,4 @@
-package programafutbol;
+package gestorAplicacion;
 
 public  abstract class ClubesDeportivos {
 	private String nombre;

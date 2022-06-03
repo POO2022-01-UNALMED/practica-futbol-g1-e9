@@ -1,11 +1,11 @@
-package programafutbol;
+package gestorAplicacion;
 
 import java.util.Comparator;
 
-public class Comparador implements Comparator<Equipo> {
+public class Comparador implements Comparator<EquipoFutbol> {
 	
 @Override
-public int compare(Equipo t,Equipo t1) {
+public int compare(EquipoFutbol t,EquipoFutbol t1) {
 	
 	if(t.getPuntos()> t1.getPuntos())
 		return -1;
