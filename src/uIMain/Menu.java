@@ -308,30 +308,6 @@ public class Menu {
 		}
 		
 	}
-private static void designarArbitrosFechas() {
-		
-		if (liga.getCalendario().isEmpty()) {
-			System.out.println("El calendario debe ser creado");
-			return;
-		} else {
-			System.out.println("Ingrese la fecha de inicio de la liga: (dd-mm-aaaa)");
-			String linea = scanner.nextLine();
-			
-			Date fechaInicio;
-			
-	        try {
-	        	fechaInicio = new SimpleDateFormat("dd-MM-yyyy").parse(linea);
-	        } catch (ParseException ex) {
-	            System.out.println("Debes ingresar una fecha valida en formato dd-mm-aaaa");
-	            return;
-	        }
-	        
-	        liga.setFechaInicio(fechaInicio);
-	        liga.asignarArbitrosFechas();
-	        mostrarCalendario();
-		}
-		
-	}
 	
 	private static void registrarResultadosJornada() {
 		
