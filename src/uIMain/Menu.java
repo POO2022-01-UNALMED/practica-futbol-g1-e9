@@ -30,9 +30,9 @@ public class Menu {
 	
 	public static void main(String[] args) {
 		
-		//cargar();
+		cargar();
 		
-		
+		/*
 		ArrayList<Jugador> plantilla1 = new ArrayList<Jugador>(Arrays.asList(
 				new Jugador("Marc Andre Ter Stegen",Posicion.PT,45000000),
 				new Jugador("Gerard Pique",Posicion.DF,5000000),
@@ -75,9 +75,7 @@ public class Menu {
 		liga.anadirEquipo(equipo2);
 		liga.anadirEquipo(equipo3);
 		liga.anadirEquipo(equipo4);
-		
-		EquipoFutbol liverpool = liga.identificarEquipo("Liverpool");
-		System.out.println(liverpool.getEntrenador().getNombre());
+		*/
 		
 		boolean salir = false;
 
@@ -191,7 +189,12 @@ public class Menu {
          
          }
     	 
-    	 liga.anadirEquipo(equipo);
+    	System.out.println("Ingrese el nombre del entrenador:");
+    	linea = scanner.nextLine();
+    	Entrenador entrenador = new Entrenador(linea);
+     	equipo.setEntrenador(entrenador);
+    	 
+    	liga.anadirEquipo(equipo);
     	 
 	}
 	

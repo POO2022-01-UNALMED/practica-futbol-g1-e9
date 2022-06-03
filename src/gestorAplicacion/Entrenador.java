@@ -40,6 +40,7 @@ public class Entrenador implements Serializable, IntegranteEquipo {
 	public void ficharJugador (Jugador jugador) {
 		equipo.setPresupuesto(equipo.getPresupuesto()-jugador.getValorMercado());
 		equipo.anadirJugador(jugador);
+		equipo.getLiga().getJugadoresLibres().remove(jugador);
 	}
 
 	@Override
