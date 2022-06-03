@@ -21,18 +21,21 @@ public class EquipoFutbol extends ClubDeportivo implements Serializable {
 	private Liga liga;
 	
 	public EquipoFutbol(String nombre, String ubicacion, int presupuesto){
-		this(nombre, ubicacion, presupuesto, new ArrayList<Jugador>());
+		this(nombre, ubicacion, presupuesto, new ArrayList<Jugador>(), null);
 	}
 	
-	public EquipoFutbol(String nombre, String ubicacion, int presupuesto, ArrayList<Jugador> plantilla){
+	public EquipoFutbol(String nombre, String ubicacion, int presupuesto, ArrayList<Jugador> plantilla, Entrenador entrenador){
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
 		this.presupuesto = presupuesto;
 		this.plantilla = plantilla;
+		this.entrenador = entrenador;
 		
 		plantilla.forEach((jugador) -> {
 			jugador.setEquipo(this);
 		});
+		
+		entrenador.setEquipo(this);
 		
 	}
 	
