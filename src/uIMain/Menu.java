@@ -76,6 +76,9 @@ public class Menu {
 		liga.anadirEquipo(equipo3);
 		liga.anadirEquipo(equipo4);
 		
+		EquipoFutbol liverpool = liga.identificarEquipo("Liverpool");
+		System.out.println(liverpool.getEntrenador().getNombre());
+		
 		boolean salir = false;
 
 		while(!salir) {
@@ -453,20 +456,26 @@ public class Menu {
         	} else {
         	
         	System.out.println("\nEstos son los jugadores que puedes fichar:");
-    		
-    		jugadoresDisponibles.forEach((jugador) -> {
-    			System.out.println(jugador.mostrar());
-    		});
-    		
-    		System.out.println("¿Cual vas a fichar? Ingresa el nombre");
-        	String nombre = scanner.nextLine();
         	
-        	jugadoresDisponibles.forEach((jugador) -> {
-    			if (jugador.getNombre() == nombre) {
-    				equipo.getEntrenador().ficharJugador(jugador);
-    				System.out.println(jugador.getNombre() + " fue fichado.");
-    			}
-    		});
+        	int indiceJugadores = 0;
+        	
+        	for (Jugador jugador: jugadoresDisponibles) {
+        		System.out.println( "(" + indiceJugadores + ") " + jugador.mostrar());
+        		indiceJugadores++;
+        	}
+    		
+    		System.out.println("¿Cual vas a fichar? Ingresa el numero correspondiente de la izquierda (X)");
+        	linea = scanner.nextLine();
+        	int index = 0;
+        	
+        	try {
+				index = Integer.parseInt(linea);
+			} catch (Exception e) {
+			}
+        	
+        	Jugador fichaje = jugadoresDisponibles.get(index);
+        	equipo.getEntrenador().ficharJugador(fichaje);
+        	System.out.println(fichaje.getNombre() + " fue fichado.");
         	
         	equipo.getPlantilla().forEach((jugador) -> {
     			System.out.println(jugador.mostrar());
@@ -478,10 +487,6 @@ public class Menu {
     		System.out.println("El equipo no pertenece a la liga");
     	}
     	
-	}
-	
-	private static void predecirResultados() {
-		
 	}
 	
 	public static void guardar() {
