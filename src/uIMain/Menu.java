@@ -22,6 +22,12 @@ import gestorAplicacion.Liga;
 import gestorAplicacion.Partido;
 import gestorAplicacion.PartidoJugado;
 
+/**
+ * Clase donde se ejecuta todo el programa. Capa de interfaz de usuario (UI)
+ * @author Sebastian Valencia
+ * @author Mateo Canavera
+ */
+
 public class Menu {
 	
 	static Scanner scanner = new Scanner(System.in);

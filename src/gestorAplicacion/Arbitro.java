@@ -5,6 +5,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * Los Arbitros son un atributo que se asigna a los partidos para que 
+ * puedan "ser jugados" y se puedan registrar sus resultados
+ * @author Sebastian Valencia
+ * @author Mateo Canavera
+ */
+
 public class Arbitro implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -12,6 +19,8 @@ public class Arbitro implements Serializable{
 	// Para seleccionar arbitros aleatoriamente
 	static Random rand = new Random();
 	
+	// La clase Arbitro tiene este atributo de clase, ya que estos arbitros estan constituidos
+	// independiente de la liga
 	public static ArrayList<Arbitro> federacionArbitros = 
 			new ArrayList <Arbitro> (
 					Arrays.asList(
