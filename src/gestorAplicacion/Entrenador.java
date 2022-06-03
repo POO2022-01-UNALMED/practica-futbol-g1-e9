@@ -2,8 +2,6 @@ package gestorAplicacion;
 
 import java.io.Serializable;
 
-import gestorAplicacion.Jugador.Posicion;
-
 public class Entrenador implements Serializable, IntegranteEquipo {
 	
 	private static final long serialVersionUID = 1L;
